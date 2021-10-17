@@ -13,6 +13,7 @@ const userSlice = createSlice({
         loading: false,
         error: ''
     },
+    
     reducers: {},
     extraReducers: {
         [getMe.pending]: (state) => {
