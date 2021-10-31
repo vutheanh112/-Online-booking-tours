@@ -1,16 +1,53 @@
-import { Button } from '@material-ui/core'
 import React, { useState } from 'react'
-import { BrowserRouter as Router, Link, useHistory } from 'react-router-dom'
-import mk from './../../images/mk.png'
-import tk from './../../images/tk.png'
 import './login.css'
-
-function Login() {
+import tk from './../../images/tk.png'
+import mk from './../../images/mk.png'
+import { BrowserRouter as Router, Link, useHistory, Redirect } from 'react-router-dom'
+import { Button } from '@material-ui/core';
+import firebase from "firebase"
+import { StyledFirebaseAuth } from 'react-firebaseui'
+import { message } from 'antd'
+import { checklogin, inforData } from "./inforSlice"
+import { useDispatch } from 'react-redux'
+import axios from 'axios'
+import loginApi from '../../../api/loginApi'
+import { userData } from '../admin/taikhoan/taikhoanSlice'
+const uiConfig = {
+    // Popup signin flow rather than redirect flow.
+    signInFlow: 'redirect',
+    signInSuccessUrl: '/',
+    // We will display Google and Facebook as auth providers.
+    signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID
+    ]
+};
+function Login(props) {
     const [state, setState] = useState({ email: '', password: '' })
     const { email, password } = state
-
+    const actionuser = async () => { await dispatch(userData()) }
+    const dispatch = useDispatch()
+    const actioninfor = async () => { await dispatch(inforData()) }
     const onsubmit = async (e) => {
         e.preventDefault();
+        if (!validateEmail(email)) {
+            message.warning("Email không đúng định dạng!")
+        } else {
+            if (email.trim() === "" || password.trim() === "") {
+                message.warning("Bạn chưa nhập đầy đủ thông tin!");
+            } else {
+                var token = await loginApi.login({ email: email, password: password }).then(data => {
+                    return data
+                })
+                if (token !== "err") {
+                    localStorage.setItem("token", token)
+                    actioninfor()
+                    message.success("Đăng nhập thành công!");
+                    history.push('/')
+                } else {
+                    message.warning("Sai tên đăng nhập hoặc mật khẩu!")
+                }
+            }
+        }
     }
     const onchange = (e) => {
         setState({
@@ -22,7 +59,10 @@ function Login() {
     const hangdleDK = () => {
         history.push('/dangky')
     }
-
+    const validateEmail = (email) => {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
     return (
         <Router>
             <div id="login">
