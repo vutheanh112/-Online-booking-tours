@@ -23,6 +23,7 @@ const getFirebasetoken = async () => {
         )
     })
 }
+
 const axiosClient = axios.create({
     baseURL: `http://localhost:666`,
     headers: {

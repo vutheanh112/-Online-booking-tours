@@ -25,6 +25,7 @@ import thanhtoanReducer from "../features/container/detailtour/tour/thanhtoanSli
 import chiphiReducer from "../features/container/admin/Chiphi/chiphiSlice"
 import hoadoncanhanReducer from "../features/container/admin/Hoadoncanhan/hoadoncanhanSlice"
 import thongbaoReducer from "../features/container/admin/Kiemduyet/thongbaoSlice"
+
 const rootReducer = {
   tintucs: tintucReducer,
   user: userReducer,
