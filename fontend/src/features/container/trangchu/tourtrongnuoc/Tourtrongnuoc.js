@@ -72,7 +72,7 @@ function Tourtrongnuoc(props) {
         <p className="mb-4">
           Du lịch trong nước luôn là lựa chọn tuyệt vời. Những thành phố nhộn
           nhịp, nền văn hóa độc đáo và hấp dẫn.
-      </p>
+        </p>
       </div>
       <div className="container">
         <div className="row justify-content-center">
@@ -125,10 +125,6 @@ function Tourtrongnuoc(props) {
     </div>
 
   )
-}
-
-Tourtrongnuoc.propTypes = {
-
 }
 
 export default Tourtrongnuoc
